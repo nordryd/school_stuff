@@ -1,2 +1,5 @@
 .project
 .pydevproject
+.aux
+.log
+.synctex.gz
