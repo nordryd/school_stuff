@@ -9,25 +9,21 @@ Assumptions:
 length
 2. fasta file has only one sequence
 '''
-
 from readfasta import readfasta
-from genetic_code import code
+#from genetic_code import code
 
-def main():
-    dna = readfasta('brca1_frag.fasta')[0][1]
-    rna = dna.replace('T', 'U')
-    print(rna)
-
-    aa_sequence = ''
-
-    for i in range(0, len(rna), 3):
-        codon = rna[i:i + 3]
-        aa = code[codon]
-        aa_sequence += aa
-
-    print(aa_sequence)
-
-main()
-
-
+def translate(fileName):
+    dna = readfasta(fileName)[0][1]
+    dna = dna.upper()
+    #rna = dna.replace('T', 'U')
     
+    #aa_sequence = ''
+    
+    #for i in range(0, len(rna), 3):
+        #codon = rna[i:i + 3]
+        #aa = code[codon]
+        #aa_sequence += aa
+        
+    #print(aa_sequence)
+    return dna
+
