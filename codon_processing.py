@@ -13,8 +13,9 @@ def process_dna_strand(sequence):
 
     for index in range(len(seq) - 2):
         if(seq[index] == "A" and found_start_codon == False):
-            if(seq[index + 1] == "T" and seq[index + 2] == "G"):
-                codon_arr.append(Codon(not found_start_codon, index % 3, "ATG"))
+            triplet = seq[index:index+3]
+            if(triplet == "ATG"):
+                codon_arr.append(Codon(not found_start_codon, index % 3, triplet))
                 found_start_codon = not found_start_codon
         elif(seq[index] == "T" and found_start_codon == True):
             print("end codon found")
