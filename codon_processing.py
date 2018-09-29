@@ -15,9 +15,10 @@ def process_dna_strand(sequence):
         if(seq[index] == "A" and found_start_codon == False):
             if(seq[index + 1] == "T" and seq[index + 2] == "G"):
                 codon_arr.append(Codon(not found_start_codon, index % 3, "ATG"))
+                found_start_codon = not found_start_codon
         elif(seq[index] == "T" and found_start_codon == True):
             print("end codon found")
-            
+            found_start_codon = not found_start_codon
 
     return codon_arr
 
