@@ -11,6 +11,10 @@ length
 '''
 from readfasta import readfasta
 #from genetic_code import code
+BasePairSwap = {"T" : "A",
+                "A" : "T",
+                "G" : "C",
+                "C" : "G"}
 
 def translate(fileName):
     dna = readfasta(fileName)[0][1]
@@ -27,3 +31,9 @@ def translate(fileName):
     #print(aa_sequence)
     return dna
 
+def inverseTransverse(sequence):
+    seq = sequence.upper()
+    ivtv = ""
+    for x in reversed(seq):
+        ivtv += BasePairSwap[x]
+    return ivtv

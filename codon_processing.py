@@ -36,11 +36,27 @@ def process_dna_strand(sequence):
             startIndex = 0
             stopIndex = 0
             for i in range(len(startIndexArr[frame]) + len(stopIndexArr[frame])):
-                if(startIndexArr[frame][startIndex] < stopIndexArr[frame][stopIndex]):
-                    possibleReadingFrameArr.append(PossibleReadingFrame(startIndexArr[frame][startIndex], stopIndexArr[frame][stopIndex]))
-                    startIndex = startIndex + 1
-                else:
-                    stopIndex = stopIndex + 1
+                if( len(startIndexArr[frame]) > startIndex and len(stopIndexArr[frame])> stopIndex):
+                    
+                    if(startIndexArr[frame][startIndex] < stopIndexArr[frame][stopIndex]):
+                        possibleReadingFrameArr.append(PossibleReadingFrame(startIndexArr[frame][startIndex], stopIndexArr[frame][stopIndex]))
+                        startIndex = startIndex + 1
+                    else:
+                        stopIndex = stopIndex + 1
+    return possibleReadingFrameArr
+
+
+
+def deleteDuplicates(possibleReadingFrameArr):
+    deletionArr = []
+    stopIndex = -1
+    for index in range(len(possibleReadingFrameArr)):
+        if(possibleReadingFrameArr[index].stopIndex == stopIndex):
+            deletionArr.append(index)
+        else:
+            stopIndex = possibleReadingFrameArr[index].stopIndex
+    for x in reversed(deletionArr):
+        possibleReadingFrameArr.pop(x)
 
     return possibleReadingFrameArr
     #found_start_codon = False
