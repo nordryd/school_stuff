@@ -5,7 +5,7 @@ from codon_processing import process_dna_strand
 from codon_processing import PossibleReadingFrame
 from codon_processing import deleteDuplicates
 if(len(argv) != 2):
-    print("please re-run the code with the line python3 main.py \"name.fasta\"")
+    print("Usage:  python3 main.py <fasta filename>.fasta")
 else:
     dna1 = translate(argv[1])
     dna2 = inverseTransverse(dna1)
