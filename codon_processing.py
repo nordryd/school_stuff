@@ -45,34 +45,7 @@ def process_dna_strand(sequence):
                         stopIndex = stopIndex + 1
     return possibleReadingFrameArr
 
-
-
-def deleteDuplicates(possibleReadingFrameArr):
-    deletionArr = []
-    stopIndex = -1
-    for index in range(len(possibleReadingFrameArr)):
-        if(possibleReadingFrameArr[index].stopIndex == stopIndex):
-            deletionArr.append(index)
-        else:
-            stopIndex = possibleReadingFrameArr[index].stopIndex
-    for x in reversed(deletionArr):
-        possibleReadingFrameArr.pop(x)
-
-    return possibleReadingFrameArr
-    #found_start_codon = False
-
-    #for index in range(len(seq) - 2):
-        #if(seq[index] == "A" and found_start_codon == False):
-            #triplet = seq[index:index+3]
-            #if(triplet == "ATG"):
-                #codon_arr.append(Codon(not found_start_codon, index % 3, triplet))
-                #found_start_codon = not found_start_codon
-        #elif(seq[index] == "T" and found_start_codon == True):
-            #print("end codon found")
-            #found_start_codon = not found_start_codon
-
-    #return codon_arr
-
+#dynamic programming, score based on how close the two strings are
 
 #codons = process_dna_strand("TATGCGTTTA")
 #for codon in codons:
