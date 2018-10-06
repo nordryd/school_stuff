@@ -1,0 +1,12 @@
+S288C_YAL005C_SSA1_flanking .fasta
+S288C_YAL009W_SPO7_flanking .fasta
+S288C_YDR155C_CPR1_flanking.fasta
+S288C_YJL026W_RNR2_flanking.fasta
+S288C_YJL050W_MTR4_flanking.fasta
+S288C_YJL059W_YHC3_flanking.fasta
+S288C_YJL179W_PFD1_flanking.fasta
+S288C_YJR141W_IPA1_flanking.fasta
+S288C_YLR050C_YLR050C_flanking.fasta
+S288C_YLR163C_MAS1_flanking.fasta
+S288C_YML110C_COQ5_flanking.fasta
+S288C_YPL252C_YAH1_flanking.fasta
