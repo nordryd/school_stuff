@@ -7,11 +7,19 @@ from orf_interpretation import removeOptionsOfWrongSize
 from orf_interpretation import getPromoterValue
 
 class ORF:
-    def __init__(self, possibleReadingFrame, promoterValue, sequence):
+    def __init__(self, possibleReadingFrame, promoterValue, sequence, dnaStrand, frame):
         self.possibleReadingFrame = possibleReadingFrame
         self.promoterValue = promoterValue
         self.sequence = sequence
+        self.dnaStrand = dnaStrand
+        self.frame = frame
 
+def getBestOrf(orfWithValueArray):
+    maxElement = orfWithValueArray[0]
+    for element in orfWithValueArray:
+        if element.promoterValue > maxElement.promoterValue :
+            maxElement = element
+    return maxElement
 if(len(argv) != 2):
     print("Usage:  python3 main.py <fasta filename>.fasta")
 else:
@@ -21,23 +29,20 @@ else:
     possibleReadingFrameArr2 = process_dna_strand(dna2)
     possibleReadingFrameArr1 = removeOptionsOfWrongSize(possibleReadingFrameArr1)
     possibleReadingFrameArr2 = removeOptionsOfWrongSize(possibleReadingFrameArr2)
+
     orfWithValue1 = []
     orfWithValue2 = []
     for elements in possibleReadingFrameArr1:
-        orfWithValue1.append(ORF(element,getPromoterValue(dna1[max(0,element.startIndex - 200):max(0, elment.startIndex -50 + 1)]),dna1[element.startIndex:element.stopIndex+3] ))
+        orfWithValue1.append(ORF(elements,getPromoterValue(dna1[max(0,elements.startIndex - 200):max(0, elments.startIndex -50 + 1)]),dna1[elements.startIndex:elements.stopIndex+3], 1, elements.startIndex%3 + 1 ))
     for elements in possibleReadingFrameArr2:
-        orfWithValue2.append(ORF(element,getPromoterValue(dna2[max(0,element.startIndex - 200):max(0, elment.startIndex -50 + 1)]),dna2[element.startIndex:element.stopIndex+3] ))
+        orfWithValue2.append(ORF(elements,getPromoterValue(dna2[max(0,elements.startIndex - 200):max(0, elements.startIndex -50 + 1)]),dna2[elements.startIndex:elements.stopIndex+3], 2, elements.startIndex%3 +1 ))
     final2 = []
-    final2.append(getBestOrf(orfWithValue1))
-    final2.append(getBestOrf(orfWithValue2))
-    bestOrf = getBestOrf(final2)
-    print(bestOrf.sequence)
-    
-    
-
-def getBestOrf(orfWithValueArray):
-    max = orfWithValueArray[0]
-    for element in orfWithValueArray:
-        if element.promoterValue > max.promoterValue :
-            max = element
-    return max
+    if(len(orfWithValue1) > 0):
+        final2.append(getBestOrf(orfWithValue1))
+    if(len(orfWithValue2) > 0):
+        final2.append(getBestOrf(orfWithValue2))
+    if(len(final2) > 0):
+        bestOrf = getBestOrf(final2)
+        print(bestOrf.dnaStrand, bestOrf.frame,bestOrf.possibleReadingFrame.startIndex, bestOrf.possibleReadingFrame.stopIndex,  bestOrf.sequence)
+    else:
+        print("no valid sequence was found")
