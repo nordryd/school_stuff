@@ -10,8 +10,8 @@ Parameter: a string starting with ">" and ending without a newline
 Return: 
   1. the first item in the string, after the ">", up to the first space
 '''
-def parseHeaderLine(line):
-    label = line[1:].split(' ')[0]
+def parseHeaderLine( line ):
+    label = line[ 1: ].split(' ')[ 0 ]
     return label
 
 '''
@@ -29,14 +29,14 @@ Return: a list of lists. Each inner list will have two elements:
    and the first space
 2. the sequence, a single string of all the letters with no line terminators
 '''
-def readfasta(filename):
+def readfasta( filename ):
     resultList = []
-    with open(filename, 'r') as infile:
+    with open( filename, 'r' ) as infile:
 
         # process the first line, which must be a header line
         line = infile.readline()
         headerLine = line.rstrip()
-        label = parseHeaderLine(headerLine)
+        label = parseHeaderLine( headerLine )
 
         # initialize the sequence accumulator
         sequence = ''
@@ -51,9 +51,9 @@ def readfasta(filename):
                 # if it's a header line, finish the previous sequence
                 # and start a new one
                 if line[0] == '>':
-                    resultList.append([label, sequence])
+                    resultList.append( [ label, sequence ] )
 
-                    label = parseHeaderLine(line)
+                    label = parseHeaderLine( line )
                     sequence = ''
             
                     # if we're here, we must be in letters of the sequence
@@ -61,6 +61,6 @@ def readfasta(filename):
                     sequence += line
             
     # we're done, so clean up, terminate the last sequence, and return
-    resultList.append([label, sequence])
+    resultList.append( [ label, sequence ] )
     return resultList
 
