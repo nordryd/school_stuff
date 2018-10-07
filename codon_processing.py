@@ -29,11 +29,9 @@ def process_dna_strand(sequence):
             stopIndex = 0
             for i in range(len(startIndexArr[frame]) +
                            len(stopIndexArr[frame])):
-                if len(startIndexArr[frame]) > startIndex
-                    and len(stopIndexArr[frame]) > stopIndex:
+                if len(startIndexArr[frame]) > startIndex and len(stopIndexArr[frame]) > stopIndex:
                     
-                    if startIndexArr[frame][startIndex] <
-                    stopIndexArr[frame][stopIndex]):
+                    if startIndexArr[frame][startIndex] < stopIndexArr[frame][stopIndex]:
                         possibleReadingFrameArr.append(
                             PossibleReadingFrame(
                                 startIndexArr[frame][startIndex],

@@ -7,7 +7,12 @@ from orf_interpretation import removeOptionsOfWrongSize
 from orf_interpretation import getPromoterValue
 
 class ORF:
-    def __init__(self, possibleReadingFrame, promoterValue, sequence, dnaStrand, frame):
+    def __init__(self,
+                 possibleReadingFrame,
+                 promoterValue,
+                 sequence,
+                 dnaStrand,
+                 frame):
         self.possibleReadingFrame = possibleReadingFrame
         self.promoterValue = promoterValue
         self.sequence = sequence
@@ -74,20 +79,15 @@ def main():
             bestOrf = getBestOrf(finals)
             frame = [0,0,0,0,0,0]
             for element in bestOrf :
-                if element.possibleReadingFrame.startIndex % 3 == 0
-                and element.dnaStrand == 1 :
+                if element.possibleReadingFrame.startIndex%3 == 0 and element.dnaStrand == 1 :
                     frame[0] = frame[0] + 1
-                elif element.possibleReadingFrame.startIndex %3 == 1
-                and element.dnaStrand == 1:
+                elif element.possibleReadingFrame.startIndex %3 == 1 and element.dnaStrand == 1:
                     frame[1] = frame[1] + 1
-                elif element.possibleReadingFrame.startIndex %3 == 2
-                and element.dnaStrand == 1:
+                elif element.possibleReadingFrame.startIndex %3 == 2 and element.dnaStrand == 1:
                     frame[2] = frame[2] + 1
-                elif element.possibleReadingFrame.startIndex %3 == 0
-                and element.dnaStrand == 2:
+                elif element.possibleReadingFrame.startIndex %3 == 0 and element.dnaStrand == 2:
                     frame[3] = frame[3] + 1
-                elif element.possibleReadingFrame.startIndex %3 == 1
-                and element.dnaStrand == 2:
+                elif element.possibleReadingFrame.startIndex %3 == 1 and element.dnaStrand == 2:
                     frame[4] = frame[4] + 1
                 else:
                     frame[5] = frame[5] + 1
