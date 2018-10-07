@@ -1,0 +1,7 @@
+from sys import argv
+if len(argv) != 2 :
+    print("re-run with correct arguments")
+else:
+    file = open(argv[1], "r")
+    lines = file.getlines()
+    printf(lines)

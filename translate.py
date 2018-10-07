@@ -1,6 +1,7 @@
 '''
 translate.py
 Jon Beck
+Last Edieted 10/7/2018
 
 A program to read a DNA sense strand from a fasta file
 and translate it into one-letter amino acid sequence.
@@ -10,7 +11,6 @@ length
 2. fasta file has only one sequence
 '''
 from readfasta import readfasta
-#from genetic_code import code
 BasePairSwap = {"T" : "A",
                 "A" : "T",
                 "G" : "C",
@@ -19,16 +19,6 @@ BasePairSwap = {"T" : "A",
 def translate(fileName):
     dna = readfasta(fileName)[0][1]
     dna = dna.upper()
-    #rna = dna.replace('T', 'U')
-    
-    #aa_sequence = ''
-    
-    #for i in range(0, len(rna), 3):
-        #codon = rna[i:i + 3]
-        #aa = code[codon]
-        #aa_sequence += aa
-        
-    #print(aa_sequence)
     return dna
 
 def inverseTransverse(sequence):

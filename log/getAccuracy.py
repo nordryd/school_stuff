@@ -10,4 +10,4 @@ else:
         if element == "2\n" :
             numerator = numerator +1;
         denominator = denominator +1;
-    print(numerator/denominator)
+    print(numerator/denominator, numerator, denominator)
