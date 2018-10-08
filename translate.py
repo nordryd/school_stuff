@@ -12,7 +12,7 @@ Jon Beck
 Last Edited 10/7/2018 by Carl Yarwood, Jacob Overton, and Kai Ding
 '''
 from readfasta import readfasta
-BasePairSwap = {"T" : "A",
+Base_Pair_Swap = {"T" : "A",
                 "A" : "T",
                 "G" : "C",
                 "C" : "G"}
@@ -23,8 +23,8 @@ translate - Read a .fasta file and convert it into a one-letter amino acid
 Parameter:	Filename of a .fasta file.
 Return:		A one-letter amino acid sequence. All letters will be UPPERCASE.
 '''
-def translate( fileName ):
-    dna = readfasta( fileName )[ 0 ][ 1 ]
+def translate( filename ):
+    dna = readfasta( filename )[ 0 ][ 1 ]
     dna = dna.upper()
     return dna
 
@@ -33,9 +33,9 @@ inverseTranverse - Inverts a given sequence based on DNA base pairs.
 Parameter:	DNA sequence to be inverted. Must be DNA.
 Return:		The inverted DNA sequence.
 '''
-def inverseTransverse( sequence ):
+def inverse_transverse( sequence ):
     seq = sequence.upper()
     ivtv = ""
     for x in reversed( seq ):
-        ivtv += BasePairSwap[ x ]
+        ivtv += Base_Pair_Swap[ x ]
     return ivtv
