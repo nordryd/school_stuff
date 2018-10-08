@@ -1,0 +1,14 @@
+from sys import argv
+if len(argv) != 2 :
+    print("pleas use correctly")
+else:
+    file = open(argv[1], "r")
+    stats = file.readlines()
+    denominator = 0
+    numer
+    for element in stats:
+        if element == "no valid sequence was found\n":
+            denominator = denominator + 1
+        else:
+            element = element[1:-2]
+            print(element)

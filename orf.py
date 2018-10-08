@@ -1,8 +1,8 @@
 import sys
 
-iterations = int(sys.argv[1])
+iterations = int( sys.argv[1] )
 
-for i in range(0, iterations):
-   print("orf", sep=' ', end=' ', file=sys.stdout)
+for i in range( 0, iterations ):
+   print( "orf", sep=' ', end=' ', file=sys.stdout )
 
 print("")

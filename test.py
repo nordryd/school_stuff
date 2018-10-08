@@ -1,0 +1,15 @@
+from sys import argv
+from main import main
+
+if( len( argv )!= 2 ):
+    print("please retype with a list of the file names")
+else:
+    file = open( argv[ 1 ], "r")
+    filenumber = 1
+    fastaFiles = file.readlines()
+    for elements in fastaFiles:
+        readfile = "fasta/" + elements
+        readfile = readfile[ :-1 ]
+        main( readfile, filenumber )
+        filenumber = filenumber + 1
+        

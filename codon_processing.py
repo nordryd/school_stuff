@@ -1,52 +1,70 @@
-import genetic_code
+'''
+codon_processing.py
 
-class Codon:
-    def __init__(self, is_start, reading_frame, sequence):
-        self.is_start = is_start
-        self.reading_frame = reading_frame
-        self.sequence = sequence
-class PossibleReadingFrame:
-    def __init__(self, startIndex, stopIndex):
-        self.startIndex = startIndex
-        self.stopIndex = stopIndex
+Processer for a DNA strand to locate all the start and stop codons and return
+a possible reading frame.
 
+Carl Yarwood, Jacob Overton, Kai Ding
+Last Edited 10/7/2018
+'''
 
-def process_dna_strand(sequence):
-    #codon_arr = []
-    startIndexArr = []
-    stopIndexArr= []
-    possibleReadingFrameArr= []
+'''
+Object to store a possible reading frame.
+	
+	Fields
+	------
+	start_index : int
+		The start index of the reading frame.
+	stop_index : int
+		The stop index of the reading frame.
+'''
+class Possible_Reading_Frame:
+    def __init__( self, start_index, stop_index ):
+        self.start_index = start_index
+        self.stop_index = stop_index
+
+'''
+process_dna_strand - Take a DNA strand and find all the start and stop codons
+					 to give a set possible reading frames.
+Parameter:	Sequence to be analyzed.
+Return:		The possible reading frames within the sequence.
+'''
+def process_dna_strand( sequence ):
+    start_index_arr = []
+    stop_index_arr= []
+    possible_reading_frame_arr= []
     seq = sequence.upper()
-    for i in range(3):
-        startIndexArr.append([])
-        stopIndexArr.append([])
-    for index in range(len(seq) - 2):
-        if(seq[index] == "A"):
-            triplet = seq[index:index+3]
-            if(triplet == "ATG"):
-                startIndexArr[index%3].append(index)
+    for i in range( 3 ):
+        start_index_arr.append( [] )
+        stop_index_arr.append( [] )
+    for index in range( len( seq ) - 2 ):
+        if seq[ index ] == "A" :
+            triplet = seq[ index:index + 3 ]
+            if triplet == "ATG" :
+                start_index_arr[ index % 3 ].append( index )
                 
-        elif(seq[index] == "T"):
-            triplet = seq[index:index+3]
-            if(triplet == "TAA" or triplet == "TAG" or triplet == "TGA"):
-                stopIndexArr[index%3].append(index)
+        elif( seq[ index ] == "T" ):
+            triplet = seq[ index:index + 3]
+            if triplet == "TAA" or triplet == "TAG" or triplet == "TGA" :
+                stop_index_arr[ index % 3 ].append( index )
 
-    for frame in range(3):
-        if(len(startIndexArr[frame]) != 0 and len(stopIndexArr[frame]) != 0):
-            startIndex = 0
-            stopIndex = 0
-            for i in range(len(startIndexArr[frame]) + len(stopIndexArr[frame])):
-                if( len(startIndexArr[frame]) > startIndex and len(stopIndexArr[frame])> stopIndex):
+    for frame in range( 3 ):
+        if( len( start_index_arr[ frame ] ) != 0 
+				and len( stop_index_arr[ frame ] ) != 0):
+            start_index = 0
+            stop_index = 0
+            for i in range( len( start_index_arr[ frame ] ) +
+                           len( stop_index_arr[ frame ] ) ):
+                if( len( start_index_arr[ frame ] ) > start_index 
+						and len( stop_index_arr[ frame ] ) > stop_index ):
                     
-                    if(startIndexArr[frame][startIndex] < stopIndexArr[frame][stopIndex]):
-                        possibleReadingFrameArr.append(PossibleReadingFrame(startIndexArr[frame][startIndex], stopIndexArr[frame][stopIndex]))
-                        startIndex = startIndex + 1
+                    if( start_index_arr[ frame ][ start_index ] 
+							< stop_index_arr[ frame ][ stop_index ] ):
+                        possible_reading_frame_arr.append(
+                            Possible_Reading_Frame(
+                                start_index_arr[ frame ][ start_index ],
+                                stop_index_arr[ frame ][ stop_index ] ))
+                        start_index = start_index + 1
                     else:
-                        stopIndex = stopIndex + 1
-    return possibleReadingFrameArr
-
-#dynamic programming, score based on how close the two strings are
-
-#codons = process_dna_strand("TATGCGTTTA")
-#for codon in codons:
-#    print(codon.is_start, codon.reading_frame, codon.sequence)
+                        stop_index = stop_index + 1
+    return possible_reading_frame_arr

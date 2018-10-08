@@ -1,7 +1,10 @@
 '''
+readfasta.py
+
+Two routines to use to read a fasta file.
+
 Jon Beck
-Two routines to use to read a fasta file
-Last modified: 20 August 2018
+Last Edited 8/20/18
 '''
 
 '''
@@ -10,8 +13,8 @@ Parameter: a string starting with ">" and ending without a newline
 Return: 
   1. the first item in the string, after the ">", up to the first space
 '''
-def parseHeaderLine(line):
-    label = line[1:].split(' ')[0]
+def parse_header_line( line ):
+    label = line[ 1: ].split(' ')[ 0 ]
     return label
 
 '''
@@ -29,20 +32,20 @@ Return: a list of lists. Each inner list will have two elements:
    and the first space
 2. the sequence, a single string of all the letters with no line terminators
 '''
-def readfasta(filename):
-    resultList = []
-    with open(filename, 'r') as infile:
+def readfasta( filename ):
+    result_list = []
+    with open( filename, 'r' ) as in_file:
 
         # process the first line, which must be a header line
-        line = infile.readline()
-        headerLine = line.rstrip()
-        label = parseHeaderLine(headerLine)
+        line = in_file.readline()
+        header_line = line.rstrip()
+        label = parse_header_line( header_line )
 
         # initialize the sequence accumulator
         sequence = ''
 
         # process all the rest of the lines in the file
-        for line in infile:
+        for line in in_file:
             line = line.rstrip()
 
             # ignore blank lines
@@ -51,9 +54,9 @@ def readfasta(filename):
                 # if it's a header line, finish the previous sequence
                 # and start a new one
                 if line[0] == '>':
-                    resultList.append([label, sequence])
+                    result_list.append( [ label, sequence ] )
 
-                    label = parseHeaderLine(line)
+                    label = parse_header_line( line )
                     sequence = ''
             
                     # if we're here, we must be in letters of the sequence
@@ -61,6 +64,6 @@ def readfasta(filename):
                     sequence += line
             
     # we're done, so clean up, terminate the last sequence, and return
-    resultList.append([label, sequence])
-    return resultList
+    result_list.append( [ label, sequence ] )
+    return result_list
 
