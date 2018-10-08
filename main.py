@@ -1,3 +1,11 @@
+'''
+main.py
+
+Main file for the ORF program pipeline.
+
+Carl Yarwood, Jacob Overton, Kai Ding
+Last Edited 10/7/2018
+'''
 from sys import argv
 from translate import translate
 from translate import inverseTransverse
@@ -6,6 +14,22 @@ from codon_processing import PossibleReadingFrame
 from orf_interpretation import removeOptionsOfWrongSize
 from orf_interpretation import getPromoterValue
 
+'''
+Object to store an open reading frame.
+	
+	Fields
+	------
+	possibleReadingFrame : str
+		The elements of a possible reading frame.
+	promoterValue : int
+		The value of the ORF's corresponding promoter value.
+	sequence : str
+		The sequence contained in the ORF.
+	dnaStrand : int [1, 2]
+		Which strand of DNA this ORF resides on.
+	frame : int
+		The reading frame containing this ORF.
+'''
 class ORF:
     def __init__( self,
                   possibleReadingFrame,
@@ -19,6 +43,12 @@ class ORF:
         self.dnaStrand = dnaStrand
         self.frame = frame
 
+'''
+getBestOrf - Finds the best ORF, given an array of ORFs with identical
+			 matching scores.
+Parameter:	An array of ORFs, all earning the same matching score.
+Return: 	The ORF with the best promoter value.
+'''
 def getBestOrf( orfWithValueArray ):
     maxElement = []
     # our lowest possible value for a promoter match is -56
@@ -32,7 +62,11 @@ def getBestOrf( orfWithValueArray ):
             maxElement.append( element )
     return maxElement
 
-
+'''
+main - Main method for executing ORF pipeline.
+Parameter:	A single .fasta file. Must be given via the command line.
+Return:		The best ORF.
+'''
 def main():
     if( len(argv) != 2 ):
         print( "Usage:  python3 main.py <fasta filename>.fasta" )
@@ -41,16 +75,19 @@ def main():
         dna2 = inverseTransverse( dna1 )
         possibleReadingFrameArr1 = process_dna_strand( dna1 )
         possibleReadingFrameArr2 = process_dna_strand( dna2 )
-        possibleReadingFrameArr1 = removeOptionsOfWrongSize( possibleReadingFrameArr1 )
-        possibleReadingFrameArr2 = removeOptionsOfWrongSize( possibleReadingFrameArr2 )
+        possibleReadingFrameArr1 = (
+			removeOptionsOfWrongSize( possibleReadingFrameArr1 ))
+        possibleReadingFrameArr2 = (
+			removeOptionsOfWrongSize( possibleReadingFrameArr2 ))
 
         orfWithValue1 = []
         orfWithValue2 = []
         for elements in possibleReadingFrameArr1:
             orfWithValue1.append( ORF( elements,
                                      getPromoterValue( dna1[
-                                        max( 0,elements.startIndex - 200 ):
-                                        max( 0, elements.startIndex - 50 + 1 ) ] )
+                                        max( 0, elements.startIndex - 200 ):
+                                        max( 0, elements.startIndex - 50 + 1)
+										])
                                      ,dna1[
                                         elements.startIndex:
                                         elements.stopIndex + 3 ],
@@ -60,7 +97,8 @@ def main():
             orfWithValue2.append( ORF( elements,
                                      getPromoterValue(dna2[
                                          max(0,elements.startIndex - 200):
-                                         max(0, elements.startIndex - 50 + 1) ] ),
+                                         max(0, elements.startIndex - 50 + 1)
+										 ]),
                                      dna2[
                                          elements.startIndex:
                                          elements.stopIndex + 3],
@@ -79,15 +117,20 @@ def main():
             bestOrf = getBestOrf( finals )
             frame = [ 0, 0, 0, 0, 0, 0 ]
             for element in bestOrf :
-                if element.possibleReadingFrame.startIndex % 3 == 0 and element.dnaStrand == 1 :
+                if( element.possibleReadingFrame.startIndex % 3 == 0 
+						and element.dnaStrand == 1 ):
                     frame[ 0 ] = frame[ 0 ] + 1
-                elif element.possibleReadingFrame.startIndex % 3 == 1 and element.dnaStrand == 1:
+                elif( element.possibleReadingFrame.startIndex % 3 == 1 
+						and element.dnaStrand == 1 ):
                     frame[ 1 ] = frame[ 1 ] + 1
-                elif element.possibleReadingFrame.startIndex % 3 == 2 and element.dnaStrand == 1:
+                elif( element.possibleReadingFrame.startIndex % 3 == 2 
+						and element.dnaStrand == 1 ):
                     frame[ 2 ] = frame[ 2 ] + 1
-                elif element.possibleReadingFrame.startIndex % 3 == 0 and element.dnaStrand == 2:
+                elif( element.possibleReadingFrame.startIndex % 3 == 0 
+						and element.dnaStrand == 2 ):
                     frame[ 3 ] = frame[ 3 ] + 1
-                elif element.possibleReadingFrame.startIndex % 3 == 1 and element.dnaStrand == 2:
+                elif( element.possibleReadingFrame.startIndex % 3 == 1 
+						and element.dnaStrand == 2 ):
                     frame[ 4 ] = frame[ 4 ] + 1
                 else:
                     frame[ 5 ] = frame[ 5 ] + 1

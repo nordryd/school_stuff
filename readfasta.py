@@ -1,7 +1,10 @@
 '''
+readfasta.py
+
+Two routines to use to read a fasta file.
+
 Jon Beck
-Two routines to use to read a fasta file
-Last modified: 20 August 2018
+Last Edited 8/20/18
 '''
 
 '''
