@@ -7,5 +7,8 @@ public class DeadlockDetectionValues {
 			+ "Line 3: Contents of the array Avail, separated by a whitespace\n"
 			+ "Next N Lines: Contents of the array Alloc, separated by a whitespace.\n"
 			+ "Next N Lines: Contents of the array Req, separated by whitespace.";
+	public static final String DEADLOCK = "These processes are deadlocked: ";
+	public static final String NO_DEADLOCK = "The system is not deadlocked.";
+	
 	public static final int INPUT_ERROR = -1;
 }
