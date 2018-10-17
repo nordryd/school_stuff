@@ -2,41 +2,45 @@ package project1DeadlockDetection;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * A class to simulate deadlock detection based on the given values of a
+ * A class to simulate deadlock detection based on a system given by values of a
  * formatted file. This program uses Dijkstra's algorithm for deadlock
  * detection, using five arrays.
  * 
+ * The aforementioned algorithm is executed straight away in the constructor in
+ * order to allow for better design choices. This includes being able to
+ * retrieve {@code isDeadlocked} without a class-level value being dependent on
+ * a method within to give it a meaningful value.
+ * 
  * @author Jacob Overton
- * @version last modified October 15, 2018
+ * @version last modified October 17, 2018
  */
 public class DeadlockDetection {
-	private int processes, resources;
-	private int[] avail;
-	private int[][] alloc, req;
-
-	private boolean[] finish;
+	private final boolean isDeadlocked;
+	private final boolean[] isProcessFinished;
 
 	/**
-	 * Constructor for DeadlockDetection.
+	 * Constructor for DeadlockDetection. Checks the given system for deadlock.
 	 * 
 	 * @param filename Name of the formatted file to read.
 	 * @throws FileNotFoundException If file was unable to be located or opened.
 	 */
 	public DeadlockDetection(String filename) throws FileNotFoundException {
+		// Variable preparation
 		Scanner in = new Scanner(new File(filename));
-		this.processes = in.nextInt();
-		this.resources = in.nextInt();
-		this.avail = new int[resources];
-		this.alloc = new int[processes][resources];
-		this.req = new int[processes][resources];
-		this.finish = new boolean[processes];
+		int processes = in.nextInt();
+		int resources = in.nextInt();
+		// work is set to avail straight away
+		int[] work = new int[resources];
+		int[][] alloc = new int[processes][resources];
+		int[][] req = new int[processes][resources];
+		// finish array is named something more clear
+		this.isProcessFinished = new boolean[processes];
 
-		for (int resource = 0; resource < avail.length; resource++) {
-			avail[resource] = in.nextInt();
+		for (int resource = 0; resource < work.length; resource++) {
+			work[resource] = in.nextInt();
 		}
 
 		for (int process = 0; process < processes; process++) {
@@ -50,18 +54,11 @@ public class DeadlockDetection {
 				req[process][resource] = in.nextInt();
 			}
 		}
-
 		in.close();
-	}
 
-	/**
-	 * @return If the system is currently deadlocked.
-	 */
-	public boolean isDeadlocked() {
-		int[] work = Arrays.copyOf(avail, avail.length);
-
+		// Deadlock Detection Algorithm execution starts here
 		for (int process = 0; process < processes; process++) {
-			finish[process] = hasAllZeroes(alloc[process]);
+			isProcessFinished[process] = hasAllZeroes(alloc[process]);
 		}
 
 		boolean validProcessFound;
@@ -69,28 +66,36 @@ public class DeadlockDetection {
 			validProcessFound = false;
 			int process = 0;
 			while (!validProcessFound && (process < processes)) {
-				if (!finish[process] && compareArraysLessThanOrEqual(req[process], work)) {
+				if (!isProcessFinished[process] && compareArraysLessThanOrEqual(req[process], work)) {
 					validProcessFound = true;
-					finish[process] = true;
+					isProcessFinished[process] = true;
 
 					work = addArrays(work, alloc[process]);
 				}
 				process++;
 			}
 
-		} while (validProcessFound && !hasAllTrue(finish));
+		} while (validProcessFound && !hasAllTrue(isProcessFinished));
 
-		return !hasAllTrue(finish);
+		this.isDeadlocked = !hasAllTrue(isProcessFinished);
 	}
 
 	/**
-	 * @return all processes that are currently deadlocked.<br/>
-	 *         <b>NOTE</b>: {@code DeadlockDetection.isDeadlocked()} must be
-	 *         executed beforehand, otherwise the returned results will be
-	 *         meaningless.
+	 * @return If the system is currently deadlocked.
 	 */
-	public boolean[] getDeadlockedProcesses() {
-		return finish;
+	public boolean isDeadlocked() {
+		return isDeadlocked;
+	}
+	
+	/**
+	 * @return Array of processes with booleans representing if their process has finished executing successfully.
+	 * <p>
+	 * <b>T</b> = Process has successfully finished and is NOT DEADLOCKED.<br/>
+	 * <b>F</b> = Process has not finished and is DEADLOCKED.
+	 * </p>
+	 */
+	public boolean[] getAllProcesses() {
+		return isProcessFinished;
 	}
 
 	private int[] addArrays(int[] array1, int[] array2) {
@@ -137,16 +142,15 @@ public class DeadlockDetection {
 
 	@Override
 	public String toString() {
-		String string = "Avail: \n" + avail[0] + " " + avail[1] + " " + avail[2] + "\n\nAlloc: \n";
-		for (int[] i : alloc) {
-			string += i[0] + " " + i[1] + " " + i[2] + "\n";
+		if (isDeadlocked) {
+			String string = DeadlockDetectionValues.DEADLOCK;
+			for (int process = 0; process < isProcessFinished.length; process++) {
+				string += isProcessFinished[process] ? "" : process + " ";
+			}
+
+			return string;
 		}
 
-		string += "\nReq: \n";
-		for (int[] i : req) {
-			string += i[0] + " " + i[1] + " " + i[2] + "\n";
-		}
-
-		return string;
+		return DeadlockDetectionValues.NO_DEADLOCK;
 	}
 }

@@ -11,19 +11,7 @@ public class DeadlockDetectionDriver {
 
 		try {
 			DeadlockDetection deadlockDetection = new DeadlockDetection(args[0]);
-
-			if (deadlockDetection.isDeadlocked()) {
-				String string = DeadlockDetectionValues.DEADLOCK;
-				boolean[] deadlockedProcesses = deadlockDetection.getDeadlockedProcesses();
-				for (int process = 0; process < deadlockedProcesses.length; process++) {
-					string += deadlockedProcesses[process] ? "" : process + " ";
-				}
-
-				System.out.println(string);
-			}
-			else {
-				System.out.println(DeadlockDetectionValues.NO_DEADLOCK);
-			}
+			System.out.println(deadlockDetection);
 		}
 		catch (FileNotFoundException exception) {
 			System.err.println(args[0] + " was not found.");
