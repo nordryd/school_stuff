@@ -70,11 +70,8 @@ def K2P_metric( seq1, seq2 ):
     return -( 1 / 2 ) * numpy.log( 1 - 2 * frac_sites_transition -
                              frac_sites_transversion ) - ( 1 / 4 ) *numpy.log(
                                  1 - 2 * frac_sites_transversion )
-    
-    
 
-
-def main():
+def get_matrix():
     
     mt_dna_info = read_fasta( "mtDNA.fasta" )
 
@@ -88,11 +85,10 @@ def main():
                                         mt_dna_info[ j ][ 1 ] ) 
             pairwise_matrix[ i ][ j ] = this_distance
 
-    print_matrix( pairwise_matrix )
+    return pairwise_matrix
 
-    return 0
-
-
-
-main()
+'''def main():
+   print_matrix( get_matrix() )
+   return 0
     
+main()'''
